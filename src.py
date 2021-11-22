@@ -1,4 +1,5 @@
-import cv2
+from PIL import Image, ImageDraw, ImageFont
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -16,9 +17,9 @@ class TextProcesser:
         # 预设合适的字体，对于中文尤其重要，否则会乱码，这里使用常见的黑体
         font = ImageFont.truetype("simhei", self._font_size, encoding='utf-8')
         # 灰度图
-        image = np.zeros(self._image_size, dtype=np.uint8)
-        # 写字
-        image = cv2.putText(image, word, (0, 0), cv2.FONT_HERSHEY_SIMPLEX, 0.75, 0, 2)
+        image = Image.new('1', self._image_size, 'white')
+        draw = ImageDraw.Draw(image)
+        draw.text((1, 1), word, font=font)
         if self.debug:
             plt.imshow(image)  # 使用matplotlib显示
             plt.show()
