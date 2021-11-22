@@ -9,8 +9,8 @@ class TextProcesser:
         self.foreground = fore  # 前景表情
         self.col_num = col_num  # 微信-11，qq-12
         self.debug = True  # 是否为调试模式
-        self._image_size = (256, 256)  # 绘制文字的图像尺寸
-        self._font_size = 210  # 文字字体大小
+        self._image_size = (col_num, col_num)  # 绘制文字的图像尺寸
+        self._font_size = col_num + 1  # 文字字体大小
 
     def _draw_word(self, word):
         """将字符绘制为图像"""
@@ -19,24 +19,24 @@ class TextProcesser:
         # 灰度图
         image = Image.new('1', self._image_size, 'white')
         draw = ImageDraw.Draw(image)
-        draw.text((1, 1), word, font=font)
+        draw.text((0, -1), word, font=font)
         if self.debug:
             plt.imshow(image)  # 使用matplotlib显示
             plt.show()
             print(np.array(image, dtype=bool))  # 转数组
-        # 获取roi
-        image = self._get_roi(image)
-        if self.debug:
-            plt.imshow(image)  # 使用matplotlib显示
-            plt.show()
-            print(np.array(image, dtype=bool))  # 转数组
-        # 调整分辨率
-        new_size = (int(self.col_num * image.size[0] / image.size[1]) + 1, self.col_num)
-        image = image.resize(new_size)
-        if self.debug:
-            plt.imshow(image)  # 使用matplotlib显示
-            plt.show()
-            print(np.array(image, dtype=bool))  # 转数组
+        # # 获取roi
+        # image = self._get_roi(image)
+        # if self.debug:
+        #     plt.imshow(image)  # 使用matplotlib显示
+        #     plt.show()
+        #     print(np.array(image, dtype=bool))  # 转数组
+        # # 调整分辨率
+        # new_size = (int(self.col_num * image.size[0] / image.size[1]) + 1, self.col_num)
+        # image = image.resize(new_size)
+        # if self.debug:
+        #     plt.imshow(image)  # 使用matplotlib显示
+        #     plt.show()
+        #     print(np.array(image, dtype=bool))  # 转数组
         return image
 
     def _get_roi(self, image0):
@@ -69,4 +69,4 @@ class TextProcesser:
 
 if __name__ == '__main__':
     tp = TextProcesser()
-    print(tp.process("ILOVEYOU"))
+    print(tp.process("爱你呦青"))
