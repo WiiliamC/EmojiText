@@ -21,7 +21,8 @@ class Main(QWidget):
         # 改变鼠标指针样式
         self.main_win.setCursor(QCursor(Qt.WaitCursor))
         # 处理
-        self.emojis = src.process(self.main_win.inputText.toPlainText())
+        processer = src.TextProcesser()
+        self.emojis = processer.process(self.main_win.inputText.toPlainText())
         # 输出结果
         self.main_win.outputText.setPlainText(self.emojis)
         # 改变鼠标指针样式

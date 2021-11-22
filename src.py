@@ -4,13 +4,14 @@ import numpy as np
 
 
 class TextProcesser:
-    def __init__(self, back='😘', fore='❤️', col_num=12):
+    def __init__(self, back='😘', fore='❤️', col_num=12, debug=False):
         self.background = back  # 背景表情
         self.foreground = fore  # 前景表情
         self.col_num = col_num  # 微信-11，qq-12
-        self.debug = True  # 是否为调试模式
+        self.debug = debug  # 是否为调试模式
         self._image_size = (col_num, col_num)  # 绘制文字的图像尺寸
         self._font_size = col_num + 1  # 文字字体大小
+        # todo: 中英文识别
 
     def _draw_word(self, word):
         """将字符绘制为图像"""
@@ -24,37 +25,7 @@ class TextProcesser:
             plt.imshow(image)  # 使用matplotlib显示
             plt.show()
             print(np.array(image, dtype=bool))  # 转数组
-        # # 获取roi
-        # image = self._get_roi(image)
-        # if self.debug:
-        #     plt.imshow(image)  # 使用matplotlib显示
-        #     plt.show()
-        #     print(np.array(image, dtype=bool))  # 转数组
-        # # 调整分辨率
-        # new_size = (int(self.col_num * image.size[0] / image.size[1]) + 1, self.col_num)
-        # image = image.resize(new_size)
-        # if self.debug:
-        #     plt.imshow(image)  # 使用matplotlib显示
-        #     plt.show()
-        #     print(np.array(image, dtype=bool))  # 转数组
-        return image
-
-    def _get_roi(self, image0):
-        """获取图像的文字区域roi"""
-        image = np.array(image0, dtype=bool)
-        roi = [-1, -1, -1, -1]
-        for i in range(image.shape[0] - 1):
-            # 行
-            if roi[0] == -1 and image[i, :].all() and not image[i + 1, :].all():
-                roi[0] = i - 1
-            elif not image[i, :].all() and image[i + 1, :].all():
-                roi[1] = i + 2
-            # 列
-            if roi[2] == -1 and image[:, i].all() and not image[:, i + 1].all():
-                roi[2] = i - 1
-            elif not image[:, i].all() and image[:, i + 1].all():
-                roi[3] = i + 2
-        return image0.crop((roi[2], roi[0], roi[3], roi[1]))
+        return np.array(image, dtype=bool)
 
     def process(self, text):
         """将文本处理为emoji字符串"""
@@ -63,7 +34,14 @@ class TextProcesser:
         for word in text:
             # 画图
             image = self._draw_word(word)
-
+            for r in range(image.shape[0]):
+                for c in range(image.shape[1]):
+                    if image[r][c]:
+                        emojis += self.background
+                    else:
+                        emojis += self.foreground
+                emojis += '\n'
+            emojis += '\n\n'
         return emojis
 
 
