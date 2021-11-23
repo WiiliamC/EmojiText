@@ -9,7 +9,9 @@
 运行main.py，在界面左侧输入框中输入文字，点击“Run”，在界面右侧输出框中会输出表情符。
 
 把输出的表情符复制到聊天软件里就可以愉快聊天了！
+
+附上[Unicode表情列表](http://www.unicode.org/emoji/charts/full-emoji-list.html#2764) 。
 # 效果
-![img.png](img.png)
+![img_2.png](img_2.png)
 ![img_1.png](img_1.png)
 
