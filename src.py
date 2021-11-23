@@ -16,17 +16,19 @@ class TextProcesser:
         # 预设合适的字体，对于中文尤其重要，否则会乱码，这里使用常见的黑体
         # 根据中英文确定绘制位置
         if word.encode("UTF-8").isalnum():
-            pos = (round(self.col_num / 4), -1)  # 文字位置
+            pos = (1, 1)  # 文字位置
             font_size = self.col_num  # 字体大小
             font = ImageFont.truetype("tahoma", size=font_size)  # 文字设置
-            image_size = (self.col_num, round(self.col_num * 1.2))  # 图像大小
+            temp_size = (self.col_num, round(self.col_num * 1.5))  # 临时图像大小
+            image_size = (self.col_num, self.col_num)  # 图像大小
         else:
-            pos = (0, -1)  # 文字位置
+            pos = (1, 1)  # 文字位置
             font_size = self.col_num  # 字体大小
             font = ImageFont.truetype("simhei", font_size, encoding='utf-8')  # 文字设置
+            temp_size = (self.col_num, round(self.col_num * 1.5))  # 临时图像大小
             image_size = (self.col_num, self.col_num)  # 图像大小
         # 灰度图
-        image = Image.new('1', image_size, 'white')
+        image = Image.new('1', temp_size, 'white')
         draw = ImageDraw.Draw(image)
         draw.text(pos, word, font=font)
         if self.debug:
@@ -34,10 +36,10 @@ class TextProcesser:
             plt.show()
             print(np.array(image, dtype=bool))  # 转数组
         # 居中平移。不同的字符在同一位置绘制的位置不同，因此需要将他们平移到上下居中、左右居中的位置上。
-        image = self._move(image)
+        image = self._move(image, image_size)
         return image
 
-    def _move(self, image):
+    def _move(self, image, size):
         """
         居中平移。不同的字符在同一位置绘制的位置不同，因此需要将他们平移到上下居中、左右居中的位置上。
         输入PIL的Image类，返回bool型ndarray类。
@@ -76,9 +78,9 @@ class TextProcesser:
                 right = i
                 break
         # 左右上下居中
-        new_image = np.ones_like(image)
+        new_image = np.ones(size, dtype=bool)
         h, w = bottom - top - 1, right - left - 1
-        t, l = round((image.shape[0] - h) / 2), round((image.shape[1] - w) / 2)
+        t, l = round((size[0] - h) / 2), round((size[1] - w) / 2)
         new_image[t:t + h, l:l + w] = image[top + 1:bottom, left + 1:right]
         return new_image
 
