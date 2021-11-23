@@ -13,16 +13,15 @@ class TextProcesser:
 
     def _draw_word(self, word):
         """将字符绘制为图像"""
-        # 预设合适的字体，对于中文尤其重要，否则会乱码，这里使用常见的黑体
         # 根据中英文确定绘制位置
         if word.encode("UTF-8").isalnum():
-            pos = (1, 1)  # 文字位置
+            pos = (1, 0)  # 文字位置
             font_size = self.col_num  # 字体大小
             font = ImageFont.truetype("tahoma", size=font_size)  # 文字设置
             temp_size = (self.col_num, round(self.col_num * 1.5))  # 临时图像大小
             image_size = (self.col_num, self.col_num)  # 图像大小
         else:
-            pos = (1, 1)  # 文字位置
+            pos = (0, 0)  # 文字位置
             font_size = self.col_num  # 字体大小
             font = ImageFont.truetype("simhei", font_size, encoding='utf-8')  # 文字设置
             temp_size = (self.col_num, round(self.col_num * 1.5))  # 临时图像大小
