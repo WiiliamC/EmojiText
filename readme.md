@@ -1,4 +1,6 @@
 # EmojiText
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/WiiliamC/EmojiText/blob/master/readme.en.md)
+
 一个方便你聊天中用表情符拼字的软件。
 # 原理
 输入文字字符串，输出表情符字符串。
