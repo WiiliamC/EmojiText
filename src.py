@@ -4,7 +4,8 @@ import numpy as np
 
 
 class TextProcessor:
-    def __init__(self, back='😘', fore='\u2764', col_num=12, debug=False):
+
+    def __init__(self, back="😘", fore="💘", col_num=12, debug=False):
         self.background = back  # 背景表情
         self.foreground = fore  # 前景表情
         self.col_num = col_num  # 微信-11，qq-12
