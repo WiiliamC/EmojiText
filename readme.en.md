@@ -19,5 +19,4 @@ Here's the Unicode emoji list for reference:
 [Unicode emoji list](http://www.unicode.org/emoji/charts/full-emoji-list.html#2764)
 
 ## Effect
-![img_2.png](img_2.png)
-![img_1.png](img_1.png)
+![doc/demo.png](doc/demo.png)
